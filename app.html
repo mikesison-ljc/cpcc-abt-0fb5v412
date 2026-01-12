@@ -530,16 +530,7 @@ body.history-open #historyContainer {
     }
   };
 
-  const _l = document.createElement("script");
-  _l.src =
-    _u +
-    "?apiKey=" + encodeURIComponent(_k) +
-    "&action=checkTerminal" +
-    "&callback=_cb";
-
-  _l.onerror = () => _s("LICENSE SERVER UNREACHABLE");
-  document.head.appendChild(_l);
-
+  
   window.TERMINAL_URL = _u;
   window.API_KEY = _k;
   window.TERMINAL_ID = _t;
@@ -654,7 +645,26 @@ body.history-open #historyContainer {
 })();
 </script>
 
+<script>
+// ==========================
+// SESSION-PROTECTED CALLS
+// ==========================
 
+function validateTerminal() {
+  const s = document.createElement("script");
+  s.src =
+    TERMINAL_URL +
+    "?apiKey=" + encodeURIComponent(API_KEY) +
+    "&action=checkTerminal" +
+    "&terminal=" + encodeURIComponent(TERMINAL_ID) +
+    "&sessionToken=" + encodeURIComponent(window.SESSION_TOKEN) +
+    "&callback=_cb";
+
+  s.onerror = () => _s("LICENSE SERVER UNREACHABLE");
+  document.head.appendChild(s);
+}
+
+</script>
 
 <script>
 (function () {
